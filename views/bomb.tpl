@@ -3,9 +3,13 @@
 <head><link rel=stylesheet type="text/css" href="/static/bomb.css"></head>
 <body>
 <div id="container">
-  <div id="header"><span>Born On My Birthday</span>  <span style="float:right"><img src="static/bomb50.png"></span>
-</div>
-<div id="navigation"> <div style="text-align:center">See people from Wikipedia born on a given day</div></div>
+  <div id="header">
+    <span>Born On My Birthday</span>
+    <span style="float:right"><img src="static/bomb50.png"></span>
+  </div>
+  <div id="navigation">
+     <div style="text-align:center">See people from Wikipedia born on a given day</div>
+  </div>
   <div id="content">
 
 % import urllib2 
@@ -27,8 +31,7 @@
 % months = 'January February March April May June July August September October November December'.split()
 
 <form action="/bomb" method="post">
-Birthday: 
-<select name="month" id="month" onchange="" size="1">
+Birthday: <select name="month" id="month" onchange="" size="1">
  % for (num,name) in enumerate(months):
  %   the_month = '%02d' % (num+1,)
     <option value="{{the_month}}" {{'selected' if month==the_month else ''}}>{{name}}</option>
