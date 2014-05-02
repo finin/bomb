@@ -27,7 +27,7 @@
 %
 % year, month, day = date
 % anonUrl = 'static/anon.gif' # use if no picture is available for a person
-% abstract_length = 200
+% abstract_length = 200       # how mancy chaacters from abstract to show
 % months = 'January February March April May June July August September October November December'.split()
 
 <form action="/bomb" method="post">
