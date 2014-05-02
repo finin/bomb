@@ -8,6 +8,7 @@ bombq = open('static/sparql_query.txt').read()
 def send_static(filename):
     return static_file(filename, 'static/')
 
+@route('/')
 @route('/bomb')
 def index():
     return template('bomb', date=('','',''), rows=[])
