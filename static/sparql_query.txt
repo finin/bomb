@@ -3,7 +3,7 @@ WHERE {
   ?Per a dbpedia-owl:Person;
      dbpedia-owl:birthDate ?Date;
      rdfs:label ?Name;
-     dbpedia-owl:abstract ?Text.
+     rdfs:comment ?Text.
   ?Wiki foaf:primaryTopic ?Per.
   ?X ?R ?Per.
   FILTER (regex(?Date, "%s") && langmatches(lang(?Name), "EN"))
@@ -12,4 +12,4 @@ WHERE {
   }
 ORDER BY DESC(?Inlinks)
 LIMIT 20
-
+OFFSET %s

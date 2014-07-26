@@ -7,14 +7,12 @@
     <span>Born On My Birthday</span>
     <span style="float:right"><img src="static/bomb50.png"></span>
   </div>
-  <div id="navigation">
-     <div style="text-align:center">See people from Wikipedia born on a given day</div>
-  </div>
+  <div id="navigation"><div style="text-align:center">See people from Wikipedia born on a given day</div></div>
   <div id="content">
 
 % import urllib2 
 % def chop(txt):
-%    return txt[:min(abstract_length,len(txt))]
+%    return txt if len(txt) < 300 else txt[:297]+'...'
 %    end   
 % def accessible(url): # returns True if URL can be opened
 %   try:
@@ -27,7 +25,6 @@
 %
 % year, month, day = date
 % anonUrl = 'static/anon.gif' # use if no picture is available for a person
-% abstract_length = 200       # how mancy chaacters from abstract to show
 % months = 'January February March April May June July August September October November December'.split()
 
 <form action="/bomb" method="post">
@@ -43,7 +40,8 @@ Birthday: <select name="month" id="month" onchange="" size="1">
   <option value="{{the_day}}" {{'selected' if day==the_day else ''}}>{{the_day}}</option>
   % end
 </select>
-<input type="text" name="year" maxlength="4" size="4" value={{year if year else '1960'}}> <i>blank for any</i>
+<input type="text" name="year" maxlength="4" size="4" value={{year if year or offset>0 else '1960'}}> <i>blank for any</i>
+<input type="hidden" name="offset" value={{0}}>
 <input value="GO" type="submit" />
 </form>
 
@@ -51,13 +49,26 @@ Birthday: <select name="month" id="month" onchange="" size="1">
 <center><table cellpadding="2">
   % for (Per, Wiki, Name, Inlinks, Text, PicUrl, Date) in rows:
   <tr><td style="width:100px"><img src="{{PicUrl if accessible(PicUrl) else anonUrl}}" width="100"></td>
-      <td style="width:400px;valign:center"><a href="{{Wiki}}">{{Name}}</a>
-      was born on {{Date}}. {{chop(Text)}} ... </td>
+      <td style="width:500px;valign:center"><a href="{{Wiki}}">{{Name}}</a>
+      was born on {{Date.strip()}}. {{chop(Text)}} </td>
   </tr>
 % end
 </table></center>
 % end
+% if len(rows) == 20:
+% # ask for more rows
+% print 'offset:', offset
+<form action="/bomb" method="post">
+  <input type="hidden" name="day" value={{day}}>
+  <input type="hidden" name="month" value={{month}}>
+  <input type="hidden" name="year" value={{year}}>
+  <input type="hidden" name="offset" value={{offset + 20}}>
+  <input value="MORE" type="submit" />
+</form>
+
+% end
 </div>
+
 <div id="footer">
 <a href="static/about.html">About</a> &nbsp;&middot;&nbsp; <a href="static/sparql_query.txt">SPARQL query</a>
 </div>
