@@ -70,7 +70,7 @@ Birthday: <select name="month" id="month" onchange="" size="1">
 </div>
 
 <div id="footer">
-<a href="static/about.html">About</a> &nbsp;&middot;&nbsp; <a href="static/sparql_query.txt">SPARQL query</a>
+<a href="/static/about.html">About</a> &nbsp;&middot;&nbsp; <a href="/static/sparql_query.txt">SPARQL query</a>
 </div>
 </div></div>
 </body>

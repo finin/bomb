@@ -34,6 +34,7 @@ def ask_query(query, endpoint=default_endpoint, format=default_format):
         else:
             return response.read()
     except:
+        raise
         return None
 
 def json2html(data):

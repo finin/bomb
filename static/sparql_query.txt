@@ -1,14 +1,19 @@
+# replace the two PERCENT-Ss with values
+PREFIX dbo: <http://dbpedia.org/ontology/>
+PREFIX foaf: <http://xmlns.com/foaf/0.1/>
 SELECT ?Per ?Wiki ?Name (count(?X) as ?Inlinks) ?Text ?PicUrl ?Date
 WHERE {
-  ?Per a dbpedia-owl:Person;
-     dbpedia-owl:birthDate ?Date;
+  ?Per a dbo:Person;
+     dbo:birthDate ?Date;
      rdfs:label ?Name;
+     # DBpedia's comment is the first few sentences of the article
      rdfs:comment ?Text.
-  ?Wiki foaf:primaryTopic ?Per.
+  OPTIONAL {?Wiki foaf:primaryTopic ?Per}
+  OPTIONAL {?Per foaf:depiction ?PicUrl}
+  # find incoming links to the person so we can sort by importance
   ?X ?R ?Per.
   FILTER (regex(?Date, "%s") && langmatches(lang(?Name), "EN"))
   FILTER (langmatches(lang(?Text), "EN"))
-  OPTIONAL {?Per foaf:depiction ?PicUrl}
   }
 ORDER BY DESC(?Inlinks)
 LIMIT 20

@@ -1,6 +1,10 @@
 from bottle import route, run, template, request, static_file
 from sparql import ask_query
 
+# select one of the following
+debug = True
+# debug = False
+
 # sparql query to get information on people born on a given day
 bombq = open('static/sparql_query.txt').read()
 
@@ -18,7 +22,12 @@ def index_post():
     date = (request.forms['year'], request.forms['month'], request.forms['day'])
     date_string = ("%s-%s-%s" % date).strip()
     offset = int(request.forms['offset'])
-    results = ask_query(bombq % (date_string, offset), format='text/tab-separated-values')
+    query = bombq % (date_string, offset)
+    if debug:
+        print 'query: {}'.format(query)
+    results = ask_query(query, format='text/tab-separated-values')
+    if debug:
+        print 'results: {}'.format(results)
     if results:
         rows = [map(unquote, row) for row in results[1:]]
         return template('bomb', date=date, offset=offset, rows=rows)
