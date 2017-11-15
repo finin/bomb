@@ -1,6 +1,6 @@
-# replace the two PERCENT-Ss with values
 PREFIX dbo: <http://dbpedia.org/ontology/>
 PREFIX foaf: <http://xmlns.com/foaf/0.1/>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
 SELECT ?Per ?Wiki ?Name (count(?X) as ?Inlinks) ?Text ?PicUrl ?Date
 WHERE {
   ?Per a dbo:Person;
@@ -8,13 +8,17 @@ WHERE {
      rdfs:label ?Name;
      # DBpedia's comment is the first few sentences of the article
      rdfs:comment ?Text.
-  OPTIONAL {?Wiki foaf:primaryTopic ?Per}
+  # must have a date that matches
+  FILTER (regex(?Date, "%s"))  # REPLACE WITH VALUE
+  # we only want Name and Text in English
+  FILTER (langmatches(lang(?Text), "EN")  && langmatches(lang(?Name), "EN"))
+  # a picture is optional
   OPTIONAL {?Per foaf:depiction ?PicUrl}
-  # find incoming links to the person so we can sort by importance
+  ?Wiki foaf:primaryTopic ?Per.
+  # find incoming links (must be at least one) to the person so we can
+  # sort by importance
   ?X ?R ?Per.
-  FILTER (regex(?Date, "%s") && langmatches(lang(?Name), "EN"))
-  FILTER (langmatches(lang(?Text), "EN"))
-  }
+ }
 ORDER BY DESC(?Inlinks)
 LIMIT 20
-OFFSET %s
+OFFSET %s    # REPLACE WITH VALUE

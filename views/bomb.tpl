@@ -40,14 +40,13 @@ Birthday: <select name="month" id="month" onchange="" size="1">
   <option value="{{the_day}}" {{'selected' if day==the_day else ''}}>{{the_day}}</option>
   % end
 </select>
-<input type="text" name="year" maxlength="4" size="4" value={{year if year or offset>0 else '1960'}}> <i>blank for any</i>
+<input type="text" name="year" maxlength="4" size="4" value={{year if year or offset>0 else '1970'}}> <i>blank for any</i>
 <input type="hidden" name="offset" value={{0}}>
 <input value="GO" type="submit" />
 </form>
 
-% if rows:
 <center><table cellpadding="2">
-  % for (Per, Wiki, Name, Inlinks, Text, PicUrl, Date) in rows:
+  % for (Per, Wiki, Name, Inlinks, Text, PicUrl, Date) in [r for r in rows if len(r)==7]:
   <tr><td style="width:100px"><img src="{{PicUrl if accessible(PicUrl) else anonUrl}}" width="100"></td>
       <td style="width:500px;valign:center"><a href="{{Wiki}}">{{Name}}</a>
       was born on {{Date.strip()}}. {{chop(Text)}} </td>
@@ -55,9 +54,8 @@ Birthday: <select name="month" id="month" onchange="" size="1">
 % end
 </table></center>
 % end
-% if len(rows) == 20:
-% # ask for more rows
-% print 'offset:', offset
+% if len(rows) == 20: print 'offset:', offset
+%   
 <form action="/bomb" method="post">
   <input type="hidden" name="day" value={{day}}>
   <input type="hidden" name="month" value={{month}}>
