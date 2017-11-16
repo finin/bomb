@@ -45,9 +45,9 @@ Birthday: <select name="month" id="month" onchange="" size="1">
 <input value="GO" type="submit" />
 </form>
 
-<center><table cellpadding="2">
+<center><table cellpadding="4" cellspacing="10">
   % for (Per, Wiki, Name, Inlinks, Text, PicUrl, Date) in [r for r in rows if len(r)==7]:
-  <tr><td style="width:100px"><img src="{{PicUrl if accessible(PicUrl) else anonUrl}}" width="100"></td>
+  <tr><td style="width:150px"><img src="{{PicUrl if accessible(PicUrl) else anonUrl}}" width="150"></td>
       <td style="width:500px;valign:center"><a href="{{Wiki}}">{{Name}}</a>
       was born on {{Date.strip()}}. {{chop(Text)}} </td>
   </tr>

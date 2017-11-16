@@ -2,7 +2,7 @@ from bottle import route, run, template, request, static_file
 from sparql import ask_query
 
 # select one of the following
-# debug = True
+#debug = True
 debug = False
 
 # sparql query to get information on people born on a given day
@@ -37,8 +37,8 @@ def index_post():
         return ''
 
 def unquote(s):
-    # remove extraneous "s from a string
+    # remove extraneous quotes from string
     return s[1:-1] if len(s) > 2 and s[0] == s[-1] == '"' else s
 
-run(host='localhost', port=8080, debug=True)
+run(host='localhost', port=8080, debug=False)
 

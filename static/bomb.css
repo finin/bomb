@@ -1,7 +1,7 @@
 #container
 {
 	margin: 0 auto;
-	width: 600px;
+	width: 800px;
 	background:#fff;
 }
 
@@ -11,32 +11,13 @@
 	padding: 20px;
       	font-size: 200%;
         font-weight: bold;
+	width: 800px;
 }
 
 #header h1 { margin: 0; }
 
-#navigation
-{
-	float: left;
-	width: 600px;
-	background:#333;
-      	font-size: 100%;
-        color:white;
-}
 
-#navigation ul
-{
-	margin: 0;
-	padding: 0;
-}
-
-#navigation ul li
-{
-	list-style-type: none;
-	display: inline;
-}
-
-#navigation li a
+#navigation a
 {
 	display: block;
 	float: left;
@@ -46,7 +27,6 @@
 	border-right: 1px solid#fff;
 }
 
-#navigation li a:hover { background:#383; }
 
 #content
 {
@@ -63,8 +43,14 @@
 
 #footer
 {
-	background:#ccc;
-	text-align: right;
-	padding: 20px;
-	height: 1%;
+  background:#ccc;
+  text-align: right;
+  padding: 20px;
+  height: 1%;
 }
+
+table {
+    border-collapse: separate;
+    border-spacing: 0 1em;
+}
+

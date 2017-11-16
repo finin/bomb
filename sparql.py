@@ -10,7 +10,7 @@ import sys, urllib, urllib2, json
 
 usage = """USAGE: python sparql.py [endpoint] q1file q2file ... qnfile"""
 
-default_endpoint = "http://dbpedia.org/sparql"
+default_endpoint = "http://live.dbpedia.org/sparql"
 
 default_format = "application/json"
 # default_format = "text/tab-separated-values"

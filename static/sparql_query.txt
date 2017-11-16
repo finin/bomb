@@ -1,24 +1,23 @@
 PREFIX dbo: <http://dbpedia.org/ontology/>
 PREFIX foaf: <http://xmlns.com/foaf/0.1/>
 PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
-SELECT ?Per ?Wiki ?Name (count(?X) as ?Inlinks) ?Text ?PicUrl ?Date
+SELECT ?Per (sample(?Wiki) as ?W) (sample(?Name) as ?N) (count(?X) as ?Inlinks) (sample(?abs) as ?t) (sample(?PicUrl) as ?Pic) (sample(?Date) as ?D)
 WHERE {
   ?Per a dbo:Person;
      dbo:birthDate ?Date;
      rdfs:label ?Name;
-     # DBpedia's comment is the first few sentences of the article
-     rdfs:comment ?Text.
+     dbo:abstract ?abs.
   # must have a date that matches
   FILTER (regex(?Date, "%s"))  # REPLACE WITH VALUE
-  # we only want Name and Text in English
-  FILTER (langmatches(lang(?Text), "EN")  && langmatches(lang(?Name), "EN"))
-  # a picture is optional
+  # Only want English strings
+  FILTER (langmatches(lang(?abs), "EN")  && langmatches(lang(?Name), "EN"))
+  # Picture is optional
   OPTIONAL {?Per foaf:depiction ?PicUrl}
   ?Wiki foaf:primaryTopic ?Per.
-  # find incoming links (must be at least one) to the person so we can
-  # sort by importance
+  # find incoming links to person to sort by importance
   ?X ?R ?Per.
  }
+GROUP BY ?Per
 ORDER BY DESC(?Inlinks)
 LIMIT 20
 OFFSET %s    # REPLACE WITH VALUE
